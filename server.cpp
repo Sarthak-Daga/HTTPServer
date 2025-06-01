@@ -2,7 +2,7 @@
 #include <winsock2.h>
 #include <fstream>
 #include <sstream>
-
+#define __port__ 8080
 using namespace std;
 #pragma comment(lib, "ws2_32.lib")
 
@@ -41,7 +41,7 @@ int main()
     sockaddr_in serveraddr;
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_addr.s_addr = INADDR_ANY;
-    serveraddr.sin_port = htons(8080);
+    serveraddr.sin_port = htons(__port__);
 
     if (bind(serverSocket, (sockaddr *)&serveraddr, sizeof(serveraddr)) == SOCKET_ERROR)
     {
@@ -59,7 +59,7 @@ int main()
       return 1;
     }
 
-    cout << "Server is listening on port 8080..." << endl;
+    cout << "Server is listening on port "<<__port__<<"..." << endl;
 
     SOCKET clientSocket = accept(serverSocket, nullptr, nullptr);
     if (clientSocket == INVALID_SOCKET)
