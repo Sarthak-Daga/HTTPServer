@@ -73,14 +73,21 @@ int main()
     char buffer[4096];
 
     int bytesReceived = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+    string request(buffer);
+    istringstream requestStream(request);
+    string method , path , protocol;
+    requestStream>>method>>path>>protocol;
+
+    if(path=="/") {path = "/index.html";}
+    string fileToServe = path.substr(1);
+    fileToServe = "www/"+fileToServe;
+    string html = readFile(fileToServe);
     if (bytesReceived > 0)
     {
       buffer[bytesReceived] = '\0'; // Null-terminate the buffer to treat it as a string
       cout << "HTTP request received:\n"
            << buffer << endl;
-
-      string html = readFile("www/index.html");
-
+           
       if (html.empty())
       {
         html = "<h1>404 Not Found</h1>";
