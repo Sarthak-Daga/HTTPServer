@@ -6,6 +6,12 @@
 using namespace std;
 #pragma comment(lib, "ws2_32.lib")
 
+void addHTML(string& a){
+  int l = a.length();
+  string m = a.substr(l-4,4);
+  if(m!="html"){a = a + ".html";}
+}
+
 string readFile(const string &filename)
 {
   ifstream file(filename);
@@ -81,13 +87,14 @@ int main()
     if(path=="/") {path = "/index.html";}
     string fileToServe = path.substr(1);
     fileToServe = "www/"+fileToServe;
+    addHTML(fileToServe);
     string html = readFile(fileToServe);
     if (bytesReceived > 0)
     {
       buffer[bytesReceived] = '\0'; // Null-terminate the buffer to treat it as a string
       cout << "HTTP request received:\n"
            << buffer << endl;
-           
+
       if (html.empty())
       {
         html = "<h1>404 Not Found</h1>";
