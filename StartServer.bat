@@ -6,4 +6,3 @@ echo "Server Online!!"
 
 server.exe
 
-pause
